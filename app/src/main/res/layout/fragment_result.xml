@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@drawable/ic_bg"
+  android:orientation="vertical"
+  android:gravity="center"
+  android:padding="20dp">
+
+  <TextView
+    android:id="@+id/tv_result"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="25dp"
+    android:text="Result"
+    android:textColor="@color/white"
+    android:textSize="25sp"
+    android:textStyle="bold"/>
+
+  <ImageView
+    android:id="@+id/tv_trophy"
+    android:layout_width="wrap_content"
+    android:layout_height="313dp"
+    android:contentDescription="image"
+    android:src="@drawable/ic_trophy" />
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/tv_congo"
+    android:layout_marginTop="16dp"
+    android:text="Hey, Congratultions"
+    android:textColor="@color/white"
+    android:textSize="25dp"
+    android:textStyle="bold"/>
+
+  <TextView
+    android:id="@+id/tv_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="25dp"
+    android:textColor="@android:color/white"
+    android:textSize="22sp"
+    android:textStyle="bold"
+    tools:text="Username" />
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/tv_score1"
+    android:layout_marginTop="10dp"
+    android:textColor="@android:color/secondary_text_dark"
+    android:textSize="20sp"
+    tools:text="You Scored 9 out of 10"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/tv_score2"
+    android:layout_marginTop="10dp"
+    android:textColor="@android:color/secondary_text_dark"
+    android:textSize="20sp"
+    tools:text="You Scored 9 out of 10"/>
+
+  <Button
+    android:id="@+id/btn_finish"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:backgroundTint="@color/white"
+    android:text="FINISH"
+    android:textColor="@color/design_default_color_primary"
+    android:textStyle="bold"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/tv_save"
+    android:layout_marginTop="10dp"
+    android:textColor="@android:color/secondary_text_dark"
+    android:textSize="20sp"
+    android:text="Save score card for:"/>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <Button
+      android:id="@+id/btn_save1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:layout_marginEnd="4dp"
+      android:backgroundTint="@color/white"
+      android:text="Player 1"
+      android:textColor="@color/design_default_color_primary"
+      android:textStyle="bold"
+      android:layout_weight="1"/>
+
+    <Button
+      android:id="@+id/btn_save2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:layout_marginStart="4dp"
+      android:backgroundTint="@color/white"
+      android:text="Player 2"
+      android:textColor="@color/design_default_color_primary"
+      android:textStyle="bold"
+      android:layout_weight="1"/>
+
+  </LinearLayout>
+
+
+</LinearLayout>
