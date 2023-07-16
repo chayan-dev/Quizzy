@@ -31,6 +31,28 @@ class ResultFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    viewModel.calculateCorrectAns()
+
+    binding.btnSave1.text  = viewModel.playerName1
+    binding.btnSave2.text  = viewModel.playerName2
+
+    binding.tvScore1.text = "${viewModel.playerName1} scored ${viewModel.correctAnsPlayer1} out of ${viewModel.scores.value?.size?.div(2)}"
+    binding.tvScore2.text = "${viewModel.playerName2} scored ${viewModel.correctAnsPlayer2} out of ${viewModel.scores.value?.size?.div(2)}"
+
+    if(viewModel.isMatchTied()){
+      binding.tvCongo.text = "Match Tie"
+      binding.btnFinish.text = "Play Tie-breaker"
+      binding.tvName.visibility = View.GONE
+    }else{
+      binding.tvCongo.text = "Hey, Congratulations"
+      binding.btnFinish.text = "FINISH"
+      if(viewModel.playerScore1>viewModel.playerScore2){
+        binding.tvName.text = viewModel.playerName1
+      }else{
+        binding.tvName.text = viewModel.playerName2
+      }
+    }
+
     binding.btnFinish.setOnClickListener {
       //is match is tied
       if(viewModel.isMatchTied()){

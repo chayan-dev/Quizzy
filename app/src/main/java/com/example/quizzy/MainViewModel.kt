@@ -12,11 +12,10 @@ class MainViewModel(): ViewModel() {
 
   private val questionsRepository = QuestionsRepository()
   var questionList = mutableListOf<QuestionType>()
+  var correctAnsPlayer1 = 0
+  var correctAnsPlayer2 = 0
   lateinit var playerName1: String
   lateinit var playerName2: String
-  var playerScore1 = 0
-  var playerScore2 = 0
-  var isMatchTie = false
 
   private var _currentPosition : MutableLiveData<Int> = MutableLiveData(0)
   val currentPosition: MutableLiveData<Int> = _currentPosition
@@ -33,9 +32,14 @@ class MainViewModel(): ViewModel() {
   private var _btnText = MutableLiveData<String>()
   val btnText: MutableLiveData<String> = _btnText
 
-  init {
-    getQuestions()
-  }
+  var playerScore1 = 0
+  var playerScore2 = 0
+  var isMatchTie = false
+
+
+//  init {
+//    getQuestions()
+//  }
 
   fun getQuestions() {
     viewModelScope.launch {
@@ -76,6 +80,7 @@ class MainViewModel(): ViewModel() {
     if(_selectedOption.value == -1){
       setScore(0)
       if(_currentPosition.value?.plus(1) == questionList.size) {
+        calculateCorrectAns()
         setBtnText("FINISH")
       }else if(_btnText.value=="skip"){
         Log.d("currPos1",_currentPosition.value.toString())
@@ -102,17 +107,20 @@ class MainViewModel(): ViewModel() {
           //lin 108 has to be here too if its last question and it is wrong, winner will be decided and show finish text
           //fetch new questions and add it to question list
           if(_currentPosition.value?.plus(1)?.rem(2) == 0 && !isLastScoreEqual()){
+            calculateCorrectAns()
             setBtnText("FINISH")
           }else {
             getQuestionsAndAddToExistingQues()
             setBtnText("NEXT")
           }
         }else{
+          calculateCorrectAns()
           setBtnText("FINISH")
         }
       }else{
         if(isMatchTie && _currentPosition.value?.plus(1)?.rem(2) == 0 && !isLastScoreEqual()){
 //          val isEqualLastScore = isLastScoreEqual()
+          calculateCorrectAns()
           setBtnText("FINISH")
         }else {
           setBtnText("NEXT")
@@ -154,6 +162,17 @@ class MainViewModel(): ViewModel() {
 //    }
   }
 
+  fun calculateCorrectAns(){
+    val list = _scores.value as List<Int>
+    for (i in list.indices) {
+      if (i % 2 == 0 && list[i]==5) {
+        correctAnsPlayer1.plus(1)
+      } else if(list[i]==5) {
+        correctAnsPlayer2.plus(1)
+      }
+    }
+  }
+
   fun matchTiedAction(){
     isMatchTie = isMatchTied()
     _currentPosition.value = 0
@@ -162,6 +181,7 @@ class MainViewModel(): ViewModel() {
   }
 
   fun isMatchTied():Boolean{
+    calculateScore()
     return playerScore1==playerScore2
   }
 
