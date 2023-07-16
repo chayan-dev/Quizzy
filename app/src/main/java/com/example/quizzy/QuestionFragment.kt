@@ -29,7 +29,7 @@ class QuestionFragment : Fragment() {
     binding.rvOptions.layoutManager = LinearLayoutManager(context)
     binding.rvOptions.adapter = optionsAdapter
 
-    viewModel.getQuestions()
+//    viewModel.getQuestions()
 
     return binding.root
   }

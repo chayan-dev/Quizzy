@@ -14,6 +14,10 @@
   </fragment>
   <fragment
     android:id="@+id/resultFragment"
-    android:name="com.example.quizplay.ResultFragment"
-    android:label="ResultFragment" />
+    android:name="com.example.quizzy.ResultFragment"
+    android:label="ResultFragment" >
+    <action
+      android:id="@+id/action_resultFragment_to_questionFragment"
+      app:destination="@id/questionFragment" />
+  </fragment>
 </navigation>

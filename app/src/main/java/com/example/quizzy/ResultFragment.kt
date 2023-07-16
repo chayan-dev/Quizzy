@@ -1,4 +1,4 @@
-package com.example.quizplay
+package com.example.quizzy
 
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.quizzy.MainViewModel
+import com.example.quizzy.R
 import com.example.quizzy.databinding.FragmentResultBinding
 
 
@@ -30,8 +31,13 @@ class ResultFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-
-
+    binding.btnFinish.setOnClickListener {
+      //is match is tied
+      if(viewModel.isMatchTied()){
+        viewModel.matchTiedAction()
+        findNavController().navigate(R.id.action_resultFragment_to_questionFragment)
+      }
+    }
   }
 
 }

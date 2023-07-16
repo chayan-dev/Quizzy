@@ -1,6 +1,6 @@
 package com.example.quizzy
 
-import  android.util.Log
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class MainViewModel(): ViewModel() {
 
   private val questionsRepository = QuestionsRepository()
-  var questionList = listOf<QuestionType>()
+  var questionList = mutableListOf<QuestionType>()
   var playerScore1 = 0
   var playerScore2 = 0
   var isMatchTie = false
@@ -30,6 +30,10 @@ class MainViewModel(): ViewModel() {
 
   private var _btnText = MutableLiveData<String>()
   val btnText: MutableLiveData<String> = _btnText
+
+  init {
+    getQuestions()
+  }
 
 
   fun getQuestions() {
@@ -91,19 +95,36 @@ class MainViewModel(): ViewModel() {
       else{
         setScore(5)
       }
+      Log.d("currentPos", _currentPosition.value.toString())
       if(_currentPosition.value?.plus(1) == questionList.size) {
-        setBtnText("FINISH")
+        if(isMatchTie){
+          //lin 108 has to be here too if its last question and it is wrong, winner will be decided and show finish text
+          //fetch new questions and add it to question list
+          if(_currentPosition.value?.plus(1)?.rem(2) == 0 && !isLastScoreEqual()){
+            setBtnText("FINISH")
+          }else {
+            getQuestionsAndAddToExistingQues()
+            setBtnText("NEXT")
+          }
+        }else{
+          setBtnText("FINISH")
+        }
       }else{
-        setBtnText("NEXT")
+        if(isMatchTie && _currentPosition.value?.plus(1)?.rem(2) == 0 && !isLastScoreEqual()){
+//          val isEqualLastScore = isLastScoreEqual()
+          setBtnText("FINISH")
+        }else {
+          setBtnText("NEXT")
+        }
       }
     }
   }
 
   private fun changeBtnText() {
-    if(_selectedOption.value != -1){
+    if(_selectedOption.value != -1 || isMatchTie){
       _btnText.value = "submit"
     }
-    if(_selectedOption.value == -1){
+    if(_selectedOption.value == -1 && !isMatchTie){
       _btnText.value = "skip"
     }
   }
@@ -132,8 +153,43 @@ class MainViewModel(): ViewModel() {
 //    }
   }
 
+  fun matchTiedAction(){
+    isMatchTie = isMatchTied()
+    _currentPosition.value = 0
+    getQuestions()
+
+  }
+
   fun isMatchTied():Boolean{
     return playerScore1==playerScore2
+  }
+
+  fun isLastScoreEqual(): Boolean{
+    val lastIndex = _scores.value?.size?.minus(1)
+    val player1 = lastIndex?.let { _scores.value?.get(it) }
+    val player2 = lastIndex?.minus(1)?.let { _scores.value?.get(it) }
+    return player1 == player2
+  }
+
+  fun getQuestionsAndAddToExistingQues() {
+    viewModelScope.launch {
+      val response = questionsRepository.getQuestions()
+      val tempList = mutableListOf<QuestionType>()
+      response.body()?.results?.forEach { ques ->
+        val options: MutableList<String> = ques.incorrectAnswers.toMutableList()
+        options.add(ques.correctAnswer)
+        options.shuffle()
+        tempList.add(QuestionType(ques.correctAnswer, options, ques.question, ques.type))
+      }
+      questionList.addAll(tempList)
+      Log.d("tied_response", tempList.toString())
+      Log.d("tied_ques", questionList.toString())
+
+
+//      questionList = tempList
+//      setQuestion()
+//      Log.d("response", tempList.toString())
+    }
   }
 
 }
