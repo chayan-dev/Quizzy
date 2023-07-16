@@ -82,7 +82,7 @@ class MainViewModel(): ViewModel() {
       if(_currentPosition.value?.plus(1) == questionList.size) {
 //        calculateCorrectAns()
         setBtnText("FINISH")
-      }else if(_btnText.value=="skip"){
+      }else if(_btnText.value=="SKIP"){
         Log.d("currPos1",_currentPosition.value.toString())
         _currentPosition.value = _currentPosition.value?.plus(1)
         Log.d("currPos2",_currentPosition.value.toString())
@@ -131,10 +131,10 @@ class MainViewModel(): ViewModel() {
 
   private fun changeBtnText() {
     if(_selectedOption.value != -1 || isMatchTie){
-      _btnText.value = "submit"
+      _btnText.value = "SUBMIT"
     }
     if(_selectedOption.value == -1 && !isMatchTie){
-      _btnText.value = "skip"
+      _btnText.value = "SKIP"
     }
   }
 
@@ -178,7 +178,7 @@ class MainViewModel(): ViewModel() {
   fun matchTiedAction(){
     isMatchTie = isMatchTied()
     _currentPosition.value = 0
-    getQuestions()
+//    getQuestions()
 
   }
 

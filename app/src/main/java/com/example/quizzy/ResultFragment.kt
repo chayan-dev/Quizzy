@@ -1,5 +1,7 @@
 package com.example.quizzy
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -11,6 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.drawToBitmap
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -57,6 +61,7 @@ class ResultFragment : Fragment() {
     binding.tvScore2.text = "$playerName2 : $correctAns2 out of $totalQues correct"
 
     if(viewModel.isMatchTied()){
+      viewModel.getQuestions()
       binding.tvCongo.text = "Match Tie"
       binding.btnFinish.text = "Play Tie-breaker"
       binding.tvName.visibility = View.GONE
@@ -75,6 +80,8 @@ class ResultFragment : Fragment() {
       if(viewModel.isMatchTied()){
         viewModel.matchTiedAction()
         findNavController().navigate(R.id.action_resultFragment_to_questionFragment)
+      }else{
+        findNavController().popBackStack(R.id.homeFragment,false)
       }
     }
 
@@ -114,7 +121,7 @@ class ResultFragment : Fragment() {
       directory.mkdirs()
     }
 
-    val imageFile = File(context?.externalCacheDir , "score-card.png")
+    val imageFile = File(directory , "score-card.png")
     val outputStream = FileOutputStream(imageFile)
     bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
     outputStream.close()

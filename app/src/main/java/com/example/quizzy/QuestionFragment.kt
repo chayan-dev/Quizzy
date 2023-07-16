@@ -62,7 +62,7 @@ class QuestionFragment : Fragment() {
         findNavController().navigate(R.id.action_questionFragment_to_resultFragment)
       }
       else{
-        if(binding.btnSubmit.text == "submit"){
+        if(binding.btnSubmit.text == "SUBMIT"){
           optionsAdapter.showCorrectOption()
         }
         viewModel.submitActon()
