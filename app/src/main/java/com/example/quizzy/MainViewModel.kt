@@ -80,7 +80,7 @@ class MainViewModel(): ViewModel() {
     if(_selectedOption.value == -1){
       setScore(0)
       if(_currentPosition.value?.plus(1) == questionList.size) {
-        calculateCorrectAns()
+//        calculateCorrectAns()
         setBtnText("FINISH")
       }else if(_btnText.value=="skip"){
         Log.d("currPos1",_currentPosition.value.toString())
@@ -107,20 +107,20 @@ class MainViewModel(): ViewModel() {
           //lin 108 has to be here too if its last question and it is wrong, winner will be decided and show finish text
           //fetch new questions and add it to question list
           if(_currentPosition.value?.plus(1)?.rem(2) == 0 && !isLastScoreEqual()){
-            calculateCorrectAns()
+//            calculateCorrectAns()
             setBtnText("FINISH")
           }else {
             getQuestionsAndAddToExistingQues()
             setBtnText("NEXT")
           }
         }else{
-          calculateCorrectAns()
+//          calculateCorrectAns()
           setBtnText("FINISH")
         }
       }else{
         if(isMatchTie && _currentPosition.value?.plus(1)?.rem(2) == 0 && !isLastScoreEqual()){
 //          val isEqualLastScore = isLastScoreEqual()
-          calculateCorrectAns()
+//          calculateCorrectAns()
           setBtnText("FINISH")
         }else {
           setBtnText("NEXT")
@@ -166,11 +166,13 @@ class MainViewModel(): ViewModel() {
     val list = _scores.value as List<Int>
     for (i in list.indices) {
       if (i % 2 == 0 && list[i]==5) {
-        correctAnsPlayer1.plus(1)
+        correctAnsPlayer1++
       } else if(list[i]==5) {
-        correctAnsPlayer2.plus(1)
+        correctAnsPlayer2++
       }
     }
+    Log.d("correct1", correctAnsPlayer1.toString())
+    Log.d("correct2", correctAnsPlayer2.toString())
   }
 
   fun matchTiedAction(){

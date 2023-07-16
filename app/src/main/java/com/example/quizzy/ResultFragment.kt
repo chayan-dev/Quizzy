@@ -31,13 +31,13 @@ class ResultFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    viewModel.calculateCorrectAns()
+//    viewModel.calculateCorrectAns()
 
     binding.btnSave1.text  = viewModel.playerName1
     binding.btnSave2.text  = viewModel.playerName2
 
-    binding.tvScore1.text = "${viewModel.playerName1} scored ${viewModel.correctAnsPlayer1} out of ${viewModel.scores.value?.size?.div(2)}"
-    binding.tvScore2.text = "${viewModel.playerName2} scored ${viewModel.correctAnsPlayer2} out of ${viewModel.scores.value?.size?.div(2)}"
+    binding.tvScore1.text = "${viewModel.playerName1} : ${viewModel.correctAnsPlayer1} out of ${viewModel.scores.value?.size?.div(2)} correct"
+    binding.tvScore2.text = "${viewModel.playerName2} : ${viewModel.correctAnsPlayer2} out of ${viewModel.scores.value?.size?.div(2)} correct"
 
     if(viewModel.isMatchTied()){
       binding.tvCongo.text = "Match Tie"
