@@ -48,6 +48,14 @@ class QuestionFragment : Fragment() {
       binding.btnSubmit.text = it
     })
 
+    viewModel.currentPosition.observe(viewLifecycleOwner, Observer {
+      if((it+1)%2 == 0){
+        binding.tvPlayer.text = "For ${viewModel.playerName2}"
+      }else{
+        binding.tvPlayer.text = "For ${viewModel.playerName1}"
+      }
+    })
+
     binding.btnSubmit.setOnClickListener {
       if(binding.btnSubmit.text == "FINISH"){
         findNavController().navigate(R.id.action_questionFragment_to_resultFragment)

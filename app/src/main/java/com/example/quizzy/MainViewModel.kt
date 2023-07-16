@@ -12,6 +12,8 @@ class MainViewModel(): ViewModel() {
 
   private val questionsRepository = QuestionsRepository()
   var questionList = mutableListOf<QuestionType>()
+  lateinit var playerName1: String
+  lateinit var playerName2: String
   var playerScore1 = 0
   var playerScore2 = 0
   var isMatchTie = false
@@ -34,7 +36,6 @@ class MainViewModel(): ViewModel() {
   init {
     getQuestions()
   }
-
 
   fun getQuestions() {
     viewModelScope.launch {
@@ -190,6 +191,11 @@ class MainViewModel(): ViewModel() {
 //      setQuestion()
 //      Log.d("response", tempList.toString())
     }
+  }
+
+  fun setPlayersName(name1: String, name2: String){
+    playerName1 = name1
+    playerName2 = name2
   }
 
 }
