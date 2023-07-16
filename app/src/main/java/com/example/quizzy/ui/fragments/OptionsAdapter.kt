@@ -1,4 +1,4 @@
-package com.example.quizzy
+package com.example.quizzy.ui.fragments
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.quizzy.R
 import com.example.quizzy.databinding.ItemOptionBinding
 
 class OptionsAdapter(

@@ -1,4 +1,4 @@
-package com.example.quizzy
+package com.example.quizzy.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +10,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.quizzy.R
 import com.example.quizzy.databinding.FragmentQuestionBinding
+import com.example.quizzy.ui.fragments.OptionsAdapter
+import com.example.quizzy.ui.viewmodels.MainViewModel
 
 class QuestionFragment : Fragment() {
 
@@ -59,6 +62,7 @@ class QuestionFragment : Fragment() {
     binding.btnSubmit.setOnClickListener {
       if(binding.btnSubmit.text == "FINISH"){
         viewModel.calculateCorrectAns()
+        viewModel.calculateScore()
         findNavController().navigate(R.id.action_questionFragment_to_resultFragment)
       }
       else{

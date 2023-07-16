@@ -7,7 +7,7 @@
 
   <fragment
     android:id="@+id/questionFragment"
-    android:name="com.example.quizzy.QuestionFragment"
+    android:name="com.example.quizzy.ui.fragments.QuestionFragment"
     android:label="QuestionFragment" >
     <action
       android:id="@+id/action_questionFragment_to_resultFragment"
@@ -16,7 +16,7 @@
   </fragment>
   <fragment
     android:id="@+id/resultFragment"
-    android:name="com.example.quizzy.ResultFragment"
+    android:name="com.example.quizzy.ui.fragments.ResultFragment"
     android:label="ResultFragment" >
     <action
       android:id="@+id/action_resultFragment_to_questionFragment"
@@ -24,7 +24,7 @@
   </fragment>
   <fragment
     android:id="@+id/homeFragment"
-    android:name="com.example.quizzy.HomeFragment"
+    android:name="com.example.quizzy.ui.fragments.HomeFragment"
     android:label="HomeFragment" >
     <action
       android:id="@+id/action_homeFragment_to_questionFragment"

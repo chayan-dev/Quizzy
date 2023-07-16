@@ -1,4 +1,4 @@
-package com.example.quizzy
+package com.example.quizzy.ui.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -183,7 +183,7 @@ class MainViewModel(): ViewModel() {
   }
 
   fun isMatchTied():Boolean{
-    calculateScore()
+//    calculateScore()
     return playerScore1==playerScore2
   }
 

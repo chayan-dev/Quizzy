@@ -1,27 +1,20 @@
-package com.example.quizzy
+package com.example.quizzy.ui.fragments
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
-import androidx.core.view.drawToBitmap
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.example.quizzy.MainViewModel
 import com.example.quizzy.R
 import com.example.quizzy.databinding.FragmentResultBinding
+import com.example.quizzy.ui.viewmodels.MainViewModel
 import java.io.File
 import java.io.FileOutputStream
 
@@ -52,13 +45,15 @@ class ResultFragment : Fragment() {
     val correctAns1=viewModel.correctAnsPlayer1
     val correctAns2=viewModel.correctAnsPlayer2
     val totalQues = viewModel.scores.value?.size?.div(2)
+    val scorePlayer1 = viewModel.playerScore1
+    val scorePlayer2 = viewModel.playerScore2
 
 
     binding.btnSave1.text  = playerName1
     binding.btnSave2.text  = playerName2
 
-    binding.tvScore1.text = "$playerName1 : $correctAns1 out of $totalQues correct"
-    binding.tvScore2.text = "$playerName2 : $correctAns2 out of $totalQues correct"
+    binding.tvScore1.text = "$playerName1 scored: $scorePlayer1 points"
+    binding.tvScore2.text = "$playerName2 scored: $scorePlayer2 points"
 
     if(viewModel.isMatchTied()){
       viewModel.getQuestions()
@@ -86,10 +81,10 @@ class ResultFragment : Fragment() {
     }
 
     binding.btnSave1.setOnClickListener {
-      saveScoreCard("$playerName1 : $correctAns1 out of $totalQues correct")
+      saveScoreCard("$playerName1 scored: $scorePlayer1 points")
     }
     binding.btnSave2.setOnClickListener {
-      saveScoreCard("$playerName2 : $correctAns2 out of $totalQues correct")
+      saveScoreCard("$playerName2 scored: $scorePlayer2 points")
     }
 
   }
