@@ -1,3 +1,8 @@
 <resources>
   <string name="app_name">Quizzy</string>
+  <string name="question_header">Question for %1$s :</string>
+  <string name="score">%1$s scored: %2$d points</string>
+  <string name="match_tied">Match tied</string>
+  <string name="congrats">Hey, Congratulation</string>
+  <string name="play_tiebreaker">Play tie-breaker</string>
 </resources>

@@ -6,6 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quizzy.api.models.QuestionType
 import com.example.quizzy.data.QuestionsRepository
+import com.example.quizzy.utils.Constants.FINISH_BTN
+import com.example.quizzy.utils.Constants.NEXT_BTN
+import com.example.quizzy.utils.Constants.SKIP_BTN
+import com.example.quizzy.utils.Constants.SUBMIT_BTN
 import kotlinx.coroutines.launch
 
 class MainViewModel(): ViewModel() {
@@ -69,7 +73,7 @@ class MainViewModel(): ViewModel() {
   }
 
   fun submitActon(){
-    if(_btnText.value == "NEXT"){
+    if(_btnText.value == NEXT_BTN){
       _currentPosition.value = _currentPosition.value?.plus(1)
       if (_currentPosition.value?.plus(1)!! <= questionList.size){
         setQuestion()
@@ -81,8 +85,8 @@ class MainViewModel(): ViewModel() {
       setScore(0)
       if(_currentPosition.value?.plus(1) == questionList.size) {
 //        calculateCorrectAns()
-        setBtnText("FINISH")
-      }else if(_btnText.value=="SKIP"){
+        setBtnText(FINISH_BTN)
+      }else if(_btnText.value== SKIP_BTN){
         Log.d("currPos1",_currentPosition.value.toString())
         _currentPosition.value = _currentPosition.value?.plus(1)
         Log.d("currPos2",_currentPosition.value.toString())
@@ -90,7 +94,7 @@ class MainViewModel(): ViewModel() {
           setQuestion()
         }
       }else{
-        setBtnText("NEXT")
+        setBtnText(NEXT_BTN)
       }
     }
     else{
@@ -108,22 +112,22 @@ class MainViewModel(): ViewModel() {
           //fetch new questions and add it to question list
           if(_currentPosition.value?.plus(1)?.rem(2) == 0 && !isLastScoreEqual()){
 //            calculateCorrectAns()
-            setBtnText("FINISH")
+            setBtnText(FINISH_BTN)
           }else {
             getQuestionsAndAddToExistingQues()
-            setBtnText("NEXT")
+            setBtnText(NEXT_BTN)
           }
         }else{
 //          calculateCorrectAns()
-          setBtnText("FINISH")
+          setBtnText(FINISH_BTN)
         }
       }else{
         if(isMatchTie && _currentPosition.value?.plus(1)?.rem(2) == 0 && !isLastScoreEqual()){
 //          val isEqualLastScore = isLastScoreEqual()
 //          calculateCorrectAns()
-          setBtnText("FINISH")
+          setBtnText(FINISH_BTN)
         }else {
-          setBtnText("NEXT")
+          setBtnText(NEXT_BTN)
         }
       }
     }
@@ -131,10 +135,10 @@ class MainViewModel(): ViewModel() {
 
   private fun changeBtnText() {
     if(_selectedOption.value != -1 || isMatchTie){
-      _btnText.value = "SUBMIT"
+      _btnText.value = SUBMIT_BTN
     }
     if(_selectedOption.value == -1 && !isMatchTie){
-      _btnText.value = "SKIP"
+      _btnText.value = SKIP_BTN
     }
   }
 
@@ -147,6 +151,8 @@ class MainViewModel(): ViewModel() {
   }
 
   fun calculateScore(){
+    playerScore1 = 0
+    playerScore2 = 0
     val list = _scores.value as List<Int>
     for (i in list.indices) {
       if (i % 2 == 0) {
@@ -218,6 +224,15 @@ class MainViewModel(): ViewModel() {
   fun setPlayersName(name1: String, name2: String){
     playerName1 = name1
     playerName2 = name2
+  }
+
+  fun resetData(){
+    _currentPosition = MutableLiveData(0)
+    _currQuestion = MutableLiveData<QuestionType>()
+    _selectedOption = MutableLiveData(-1)
+    _scores = MutableLiveData<List<Int>>()
+    _btnText = MutableLiveData<String>()
+    isMatchTie = false
   }
 
 }

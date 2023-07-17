@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
         viewModel.setPlayersName(binding.etName1.text.toString(),binding.etName2.text.toString())
         findNavController().navigate(R.id.action_homeFragment_to_questionFragment)
       } else{
-        Toast.makeText(context,"Emter name for both players", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context,"Enter name of both players", Toast.LENGTH_SHORT).show()
       }
     }
 

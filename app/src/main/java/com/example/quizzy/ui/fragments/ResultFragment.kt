@@ -23,9 +23,6 @@ class ResultFragment : Fragment() {
 
   lateinit var binding: FragmentResultBinding
   private val viewModel by activityViewModels<MainViewModel>()
-  lateinit var playerName1: String
-  lateinit var playerName2: String
-
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -39,29 +36,24 @@ class ResultFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-//    viewModel.calculateCorrectAns()
-    playerName1=viewModel.playerName1
-    playerName2=viewModel.playerName2
-    val correctAns1=viewModel.correctAnsPlayer1
-    val correctAns2=viewModel.correctAnsPlayer2
-    val totalQues = viewModel.scores.value?.size?.div(2)
+    val playerName1=viewModel.playerName1
+    val playerName2=viewModel.playerName2
     val scorePlayer1 = viewModel.playerScore1
     val scorePlayer2 = viewModel.playerScore2
-
 
     binding.btnSave1.text  = playerName1
     binding.btnSave2.text  = playerName2
 
-    binding.tvScore1.text = "$playerName1 scored: $scorePlayer1 points"
-    binding.tvScore2.text = "$playerName2 scored: $scorePlayer2 points"
+    binding.tvScore1.text = getString(R.string.score,playerName1,scorePlayer1)
+    binding.tvScore2.text = getString(R.string.score,playerName2,scorePlayer2)
 
     if(viewModel.isMatchTied()){
       viewModel.getQuestions()
-      binding.tvCongo.text = "Match Tie"
-      binding.btnFinish.text = "Play Tie-breaker"
+      binding.tvCongo.text = getString(R.string.match_tied)
+      binding.btnFinish.text = getString(R.string.play_tiebreaker)
       binding.tvName.visibility = View.GONE
     }else{
-      binding.tvCongo.text = "Hey, Congratulations"
+      binding.tvCongo.text = getString(R.string.congrats)
       binding.btnFinish.text = "FINISH"
       if(viewModel.playerScore1>viewModel.playerScore2){
         binding.tvName.text = viewModel.playerName1
@@ -76,15 +68,16 @@ class ResultFragment : Fragment() {
         viewModel.matchTiedAction()
         findNavController().navigate(R.id.action_resultFragment_to_questionFragment)
       }else{
+        viewModel.resetData()
         findNavController().popBackStack(R.id.homeFragment,false)
       }
     }
 
     binding.btnSave1.setOnClickListener {
-      saveScoreCard("$playerName1 scored: $scorePlayer1 points")
+      saveScoreCard(getString(R.string.score,playerName1,scorePlayer1) )
     }
     binding.btnSave2.setOnClickListener {
-      saveScoreCard("$playerName2 scored: $scorePlayer2 points")
+      saveScoreCard(getString(R.string.score,playerName2,scorePlayer2))
     }
 
   }
@@ -111,7 +104,9 @@ class ResultFragment : Fragment() {
     val canvas = Canvas(bitmap)
     rootView.draw(canvas)
 
-    val directory = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "quizzy score")
+    val directory = File(
+      Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+      "quizzy score")
     if (!directory.exists()) {
       directory.mkdirs()
     }
