@@ -4,7 +4,7 @@
 ### [Normal flow video](https://drive.google.com/file/d/1hyF1bLOF4rLwKROAWYLDaCSc-0Kyyqxz/view?usp=sharing)
 ### [Tie-breaker flow video](https://drive.google.com/file/d/1i1Wqxypz-lVTtRRMIy_NxddI6pP58Dlf/view?usp=sharing)
 
-## APK:  [Download](https://drive.google.com/file/d/1zdVNQjj-8_jLnAZPDxPg-t1QyRXcZGTJ/view?usp=sharing)
+## APK:  [Download](https://drive.google.com/file/d/1yoctlQpn9rbVWRcL1HQf6gssbHycoeUd/view?usp=sharing)
 
 ## Features:
 - Play quiz match between 2 player
