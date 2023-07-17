@@ -31,11 +31,11 @@ class HomeFragment : Fragment() {
     viewModel.getQuestions()
 
     binding.btnStart.setOnClickListener {
-      if(binding.etName1.text?.isNotBlank() == true && binding.etName2.text?.isNotBlank() == true){
-        viewModel.setPlayersName(binding.etName1.text.toString(),binding.etName2.text.toString())
+      if (binding.etName1.text?.isNotBlank() == true && binding.etName2.text?.isNotBlank() == true) {
+        viewModel.setPlayersName(binding.etName1.text.toString(), binding.etName2.text.toString())
         findNavController().navigate(R.id.action_homeFragment_to_questionFragment)
-      } else{
-        Toast.makeText(context,"Enter name of both players", Toast.LENGTH_SHORT).show()
+      } else {
+        Toast.makeText(context, "Enter name of both players", Toast.LENGTH_SHORT).show()
       }
     }
 

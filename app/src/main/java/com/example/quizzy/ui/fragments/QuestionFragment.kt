@@ -34,8 +34,6 @@ class QuestionFragment : Fragment() {
     binding.rvOptions.layoutManager = LinearLayoutManager(context)
     binding.rvOptions.adapter = optionsAdapter
 
-//    viewModel.getQuestions()
-
     return binding.root
   }
 
@@ -54,36 +52,29 @@ class QuestionFragment : Fragment() {
     })
 
     viewModel.currentPosition.observe(viewLifecycleOwner, Observer {
-      if((it+1)%2 == 0){
+      if ((it + 1) % 2 == 0) {
         binding.tvPlayer.text = getString(R.string.question_header, viewModel.playerName2)
-      }else{
+      } else {
         binding.tvPlayer.text = getString(R.string.question_header, viewModel.playerName1)
       }
     })
 
     viewModel.selectedOption.observe(viewLifecycleOwner, Observer { option ->
-      binding.btnSubmit.isEnabled = !(option==-1 && viewModel.isMatchTie)
+      binding.btnSubmit.isEnabled = !(option == -1 && viewModel.isMatchTie)
     })
 
     binding.btnSubmit.setOnClickListener {
-      if(binding.btnSubmit.text == FINISH_BTN){
+      if (binding.btnSubmit.text == FINISH_BTN) {
         viewModel.calculateCorrectAns()
         viewModel.calculateScore()
         findNavController().navigate(R.id.action_questionFragment_to_resultFragment)
-      }
-      else{
-        if(binding.btnSubmit.text == SUBMIT_BTN){
+      } else {
+        if (binding.btnSubmit.text == SUBMIT_BTN) {
           optionsAdapter.showCorrectOption()
         }
         viewModel.submitActon()
       }
     }
-
-    viewModel.scores.observe(viewLifecycleOwner, Observer {
-      Log.d("scores_ld",it.toString())
-    })
-
-
   }
 
   private fun onOptionClickAction(it: Int) {

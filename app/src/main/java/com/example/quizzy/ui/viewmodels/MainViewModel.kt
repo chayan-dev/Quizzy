@@ -1,6 +1,5 @@
 package com.example.quizzy.ui.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,7 +11,7 @@ import com.example.quizzy.utils.Constants.SKIP_BTN
 import com.example.quizzy.utils.Constants.SUBMIT_BTN
 import kotlinx.coroutines.launch
 
-class MainViewModel(): ViewModel() {
+class MainViewModel() : ViewModel() {
 
   private val questionsRepository = QuestionsRepository()
   var questionList = mutableListOf<QuestionType>()
@@ -21,13 +20,13 @@ class MainViewModel(): ViewModel() {
   lateinit var playerName1: String
   lateinit var playerName2: String
 
-  private var _currentPosition : MutableLiveData<Int> = MutableLiveData(0)
+  private var _currentPosition: MutableLiveData<Int> = MutableLiveData(0)
   val currentPosition: MutableLiveData<Int> = _currentPosition
 
   private var _currQuestion = MutableLiveData<QuestionType>()
   val currQuestion: MutableLiveData<QuestionType> = _currQuestion
 
-  private var _selectedOption : MutableLiveData<Int> = MutableLiveData(-1)
+  private var _selectedOption: MutableLiveData<Int> = MutableLiveData(-1)
   val selectedOption: MutableLiveData<Int> = _selectedOption
 
   private var _scores = MutableLiveData<List<Int>>()
@@ -39,11 +38,6 @@ class MainViewModel(): ViewModel() {
   var playerScore1 = 0
   var playerScore2 = 0
   var isMatchTie = false
-
-
-//  init {
-//    getQuestions()
-//  }
 
   fun getQuestions() {
     viewModelScope.launch {
@@ -57,7 +51,6 @@ class MainViewModel(): ViewModel() {
       }
       questionList = tempList
       setQuestion()
-      Log.d("response", tempList.toString())
     }
   }
 
@@ -67,66 +60,54 @@ class MainViewModel(): ViewModel() {
     changeBtnText()
   }
 
-  fun setSelectedOption(optionPosition: Int){
+  fun setSelectedOption(optionPosition: Int) {
     _selectedOption.value = optionPosition
     changeBtnText()
   }
 
-  fun submitActon(){
-    if(_btnText.value == NEXT_BTN){
+  fun submitActon() {
+    if (_btnText.value == NEXT_BTN) {
       _currentPosition.value = _currentPosition.value?.plus(1)
-      if (_currentPosition.value?.plus(1)!! <= questionList.size){
+      if (_currentPosition.value?.plus(1)!! <= questionList.size) {
         setQuestion()
       }
       return
     }
 
-    if(_selectedOption.value == -1){
+    if (_selectedOption.value == -1) {
       setScore(0)
-      if(_currentPosition.value?.plus(1) == questionList.size) {
-//        calculateCorrectAns()
+      if (_currentPosition.value?.plus(1) == questionList.size) {
         setBtnText(FINISH_BTN)
-      }else if(_btnText.value== SKIP_BTN){
-        Log.d("currPos1",_currentPosition.value.toString())
+      } else if (_btnText.value == SKIP_BTN) {
         _currentPosition.value = _currentPosition.value?.plus(1)
-        Log.d("currPos2",_currentPosition.value.toString())
-        if (_currentPosition.value?.plus(1)!! <= questionList.size){
+        if (_currentPosition.value?.plus(1)!! <= questionList.size) {
           setQuestion()
         }
-      }else{
+      } else {
         setBtnText(NEXT_BTN)
       }
-    }
-    else{
+    } else {
       val ques = _currQuestion.value
-      if(ques?.correctAnswer!= selectedOption.value?.let { ques?.options?.get(it) }) {
+      if (ques?.correctAnswer != selectedOption.value?.let { ques?.options?.get(it) }) {
         setScore(-2)
-      }
-      else{
+      } else {
         setScore(5)
       }
-      Log.d("currentPos", _currentPosition.value.toString())
-      if(_currentPosition.value?.plus(1) == questionList.size) {
-        if(isMatchTie){
-          //lin 108 has to be here too if its last question and it is wrong, winner will be decided and show finish text
-          //fetch new questions and add it to question list
-          if(_currentPosition.value?.plus(1)?.rem(2) == 0 && !isLastScoreEqual()){
-//            calculateCorrectAns()
+      if (_currentPosition.value?.plus(1) == questionList.size) {
+        if (isMatchTie) {
+          if (_currentPosition.value?.plus(1)?.rem(2) == 0 && !isLastScoreEqual()) {
             setBtnText(FINISH_BTN)
-          }else {
+          } else {
             getQuestionsAndAddToExistingQues()
             setBtnText(NEXT_BTN)
           }
-        }else{
-//          calculateCorrectAns()
+        } else {
           setBtnText(FINISH_BTN)
         }
-      }else{
-        if(isMatchTie && _currentPosition.value?.plus(1)?.rem(2) == 0 && !isLastScoreEqual()){
-//          val isEqualLastScore = isLastScoreEqual()
-//          calculateCorrectAns()
+      } else {
+        if (isMatchTie && _currentPosition.value?.plus(1)?.rem(2) == 0 && !isLastScoreEqual()) {
           setBtnText(FINISH_BTN)
-        }else {
+        } else {
           setBtnText(NEXT_BTN)
         }
       }
@@ -134,10 +115,10 @@ class MainViewModel(): ViewModel() {
   }
 
   private fun changeBtnText() {
-    if(_selectedOption.value != -1 || isMatchTie){
+    if (_selectedOption.value != -1 || isMatchTie) {
       _btnText.value = SUBMIT_BTN
     }
-    if(_selectedOption.value == -1 && !isMatchTie){
+    if (_selectedOption.value == -1 && !isMatchTie) {
       _btnText.value = SKIP_BTN
     }
   }
@@ -150,7 +131,7 @@ class MainViewModel(): ViewModel() {
     _scores.value = _scores.value?.plus(score) ?: listOf(score)
   }
 
-  fun calculateScore(){
+  fun calculateScore() {
     playerScore1 = 0
     playerScore2 = 0
     val list = _scores.value as List<Int>
@@ -161,39 +142,29 @@ class MainViewModel(): ViewModel() {
         playerScore2 += list[i]
       }
     }
-//    isMatchTie = isMatchTied()
-//    if(isMatchTie) {
-//      getQuestions()
-//      _currentPosition.value=0
-//    }
   }
 
-  fun calculateCorrectAns(){
+  fun calculateCorrectAns() {
     val list = _scores.value as List<Int>
     for (i in list.indices) {
-      if (i % 2 == 0 && list[i]==5) {
+      if (i % 2 == 0 && list[i] == 5) {
         correctAnsPlayer1++
-      } else if(list[i]==5) {
+      } else if (list[i] == 5) {
         correctAnsPlayer2++
       }
     }
-    Log.d("correct1", correctAnsPlayer1.toString())
-    Log.d("correct2", correctAnsPlayer2.toString())
   }
 
-  fun matchTiedAction(){
+  fun matchTiedAction() {
     isMatchTie = isMatchTied()
     _currentPosition.value = 0
-//    getQuestions()
-
   }
 
-  fun isMatchTied():Boolean{
-//    calculateScore()
-    return playerScore1==playerScore2
+  fun isMatchTied(): Boolean {
+    return playerScore1 == playerScore2
   }
 
-  fun isLastScoreEqual(): Boolean{
+  fun isLastScoreEqual(): Boolean {
     val lastIndex = _scores.value?.size?.minus(1)
     val player1 = lastIndex?.let { _scores.value?.get(it) }
     val player2 = lastIndex?.minus(1)?.let { _scores.value?.get(it) }
@@ -211,22 +182,15 @@ class MainViewModel(): ViewModel() {
         tempList.add(QuestionType(ques.correctAnswer, options, ques.question, ques.type))
       }
       questionList.addAll(tempList)
-      Log.d("tied_response", tempList.toString())
-      Log.d("tied_ques", questionList.toString())
-
-
-//      questionList = tempList
-//      setQuestion()
-//      Log.d("response", tempList.toString())
     }
   }
 
-  fun setPlayersName(name1: String, name2: String){
+  fun setPlayersName(name1: String, name2: String) {
     playerName1 = name1
     playerName2 = name2
   }
 
-  fun resetData(){
+  fun resetData() {
     _currentPosition = MutableLiveData(0)
     _currQuestion = MutableLiveData<QuestionType>()
     _selectedOption = MutableLiveData(-1)

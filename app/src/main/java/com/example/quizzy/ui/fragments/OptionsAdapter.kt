@@ -11,14 +11,13 @@ import com.example.quizzy.R
 import com.example.quizzy.databinding.ItemOptionBinding
 
 class OptionsAdapter(
-  var options : List<String>,
+  var options: List<String>,
   var correctOp: Int,
   val onOptionClick: (optionPosition: Int) -> Unit
-): RecyclerView.Adapter<OptionsAdapter.OptionsViewHolder>() {
+) : RecyclerView.Adapter<OptionsAdapter.OptionsViewHolder>() {
 
   private lateinit var binding: ItemOptionBinding
   private var selectedItemPosition = RecyclerView.NO_POSITION
-//  var showIsCorrect = false
   var showAnswer = false
 
   inner class OptionsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -59,29 +58,16 @@ class OptionsAdapter(
       defaultBg(binding)
     }
 
-//    if(showIsCorrect){
-//      Log.d("showCorrect, selected, correct, positon","$showIsCorrect,$selectedItemPosition,$correctOp,$position")
-//      if (holder.adapterPosition==selectedItemPosition && selectedItemPosition!=correctOp){
-//        binding.tvOption.setBackgroundResource(R.drawable.wrong_option_border_bg)
-//        selectedItemPosition = RecyclerView.NO_POSITION
-//        showIsCorrect = false
-//      }
-//    }
-
-    if(showAnswer){
-      Log.d("showAnswer, selected, correct, positon","$showAnswer,$selectedItemPosition,$correctOp,$position")
-      if(holder.adapterPosition==correctOp){
+    if (showAnswer) {
+      if (holder.adapterPosition == correctOp) {
         binding.tvOption.setBackgroundResource(R.drawable.correct_option_border_bg)
         showAnswer = false
-//        showIsCorrect = false
         selectedItemPosition = RecyclerView.NO_POSITION
       }
     }
   }
 
-  fun showCorrectOption(){
-//    showIsCorrect = true
-//    notifyItemChanged(selectedItemPosition)
+  fun showCorrectOption() {
     showAnswer = true
     notifyItemChanged(correctOp)
   }
@@ -89,7 +75,7 @@ class OptionsAdapter(
   fun defaultBg(binding: ItemOptionBinding) {
     binding.apply {
       tvOption.setTextColor(Color.parseColor("#7A8089"))
-      tvOption.typeface= Typeface.DEFAULT
+      tvOption.typeface = Typeface.DEFAULT
       tvOption.setBackgroundResource(R.drawable.default_option_border_bg)
     }
   }
@@ -97,7 +83,7 @@ class OptionsAdapter(
   fun selectedBg(binding: ItemOptionBinding) {
     binding.apply {
       tvOption.setTextColor(Color.parseColor("#363A43"))
-      tvOption.setTypeface(tvOption.typeface,Typeface.BOLD)
+      tvOption.setTypeface(tvOption.typeface, Typeface.BOLD)
       tvOption.setBackgroundResource(R.drawable.selected_option_border_bg)
     }
   }

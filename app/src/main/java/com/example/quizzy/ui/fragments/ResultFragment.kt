@@ -36,55 +36,55 @@ class ResultFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    val playerName1=viewModel.playerName1
-    val playerName2=viewModel.playerName2
+    val playerName1 = viewModel.playerName1
+    val playerName2 = viewModel.playerName2
     val scorePlayer1 = viewModel.playerScore1
     val scorePlayer2 = viewModel.playerScore2
 
-    binding.btnSave1.text  = playerName1
-    binding.btnSave2.text  = playerName2
+    binding.btnSave1.text = playerName1
+    binding.btnSave2.text = playerName2
 
-    binding.tvScore1.text = getString(R.string.score,playerName1,scorePlayer1)
-    binding.tvScore2.text = getString(R.string.score,playerName2,scorePlayer2)
+    binding.tvScore1.text = getString(R.string.score, playerName1, scorePlayer1)
+    binding.tvScore2.text = getString(R.string.score, playerName2, scorePlayer2)
 
-    if(viewModel.isMatchTied()){
+    if (viewModel.isMatchTied()) {
       viewModel.getQuestions()
       binding.tvCongo.text = getString(R.string.match_tied)
       binding.btnFinish.text = getString(R.string.play_tiebreaker)
       binding.tvName.visibility = View.GONE
-    }else{
+    } else {
       binding.tvCongo.text = getString(R.string.congrats)
       binding.btnFinish.text = "FINISH"
-      if(viewModel.playerScore1>viewModel.playerScore2){
+      if (viewModel.playerScore1 > viewModel.playerScore2) {
         binding.tvName.text = viewModel.playerName1
-      }else{
+      } else {
         binding.tvName.text = viewModel.playerName2
       }
     }
 
     binding.btnFinish.setOnClickListener {
       //is match is tied
-      if(viewModel.isMatchTied()){
+      if (viewModel.isMatchTied()) {
         viewModel.matchTiedAction()
         findNavController().navigate(R.id.action_resultFragment_to_questionFragment)
-      }else{
+      } else {
         viewModel.resetData()
-        findNavController().popBackStack(R.id.homeFragment,false)
+        findNavController().popBackStack(R.id.homeFragment, false)
       }
     }
 
     binding.btnSave1.setOnClickListener {
-      saveScoreCard(getString(R.string.score,playerName1,scorePlayer1) )
+      saveScoreCard(getString(R.string.score, playerName1, scorePlayer1))
     }
     binding.btnSave2.setOnClickListener {
-      saveScoreCard(getString(R.string.score,playerName2,scorePlayer2))
+      saveScoreCard(getString(R.string.score, playerName2, scorePlayer2))
     }
 
   }
 
-  private fun saveScoreCard(scoreText: String){
+  private fun saveScoreCard(scoreText: String) {
     val inflater = LayoutInflater.from(context)
-    val rootView = inflater.inflate(R.layout.layout_score_card,null)
+    val rootView = inflater.inflate(R.layout.layout_score_card, null)
 
     val textView = rootView.findViewById<TextView>(R.id.tv_scorecard)
     textView.text = scoreText
@@ -106,18 +106,17 @@ class ResultFragment : Fragment() {
 
     val directory = File(
       Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-      "quizzy score")
+      "quizzy score"
+    )
     if (!directory.exists()) {
       directory.mkdirs()
     }
 
-    val imageFile = File(directory , "score-card.png")
+    val imageFile = File(directory, "score-card.png")
     val outputStream = FileOutputStream(imageFile)
     bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
     outputStream.close()
     Toast.makeText(context, "Score card saved", Toast.LENGTH_SHORT).show()
 
   }
-
-
 }

@@ -9,7 +9,7 @@ interface QuestionsAPI {
 
   @GET("api.php")
   suspend fun getQuestions(
-    @Query("amount") amount: Int? = 6
+    @Query("amount") amount: Int? = 10
   ): Response<QuestionsResponse>
 
 }
